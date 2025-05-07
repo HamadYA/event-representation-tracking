@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Comparing Representations for Event Camera-based Visual Object Tracking</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url('your-background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      text-align: center;
+    }
+    header {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 60px 20px;
+    }
+    header h1 {
+      font-size: 3em;
+      font-weight: 900;
+      margin-bottom: 15px;
+    }
+    header p {
+      font-size: 1.5em;
+    }
+    section {
+      background: rgba(0, 0, 50, 0.5);
+      margin: 40px auto;
+      padding: 40px 20px;
+      max-width: 1200px;
+      border-radius: 12px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease-out, transform 1s ease-out;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    h2 {
+      font-size: 2em;
+      margin-top: 0;
+      font-weight: 700;
+    }
+    p, li {
+      font-size: 1.2em;
+      font-weight: 500;
+    }
+    ul {
+      padding-left: 0;
+      list-style-position: inside;
+      text-align: center;
+    }
+    .centered-img, .objectives-img {
+      display: block;
+      margin: 30px auto;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 700px;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: all 1s ease;
+    }
+    section.visible .centered-img,
+    section.visible .objectives-img,
+    section.visible .image-row img {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .image-row {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .image-row img {
+      width: 30%;
+      border-radius: 8px;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: all 1s ease;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Comparing Representations for Event Camera-based Visual Object Tracking</h1>
+  <p>Publisher: Mohamad Alansari 100061914<br>Supervised By: Prof. Jorge Dias</p>
+</header>
+
+<section>
+  <h2>Background</h2>
+  <p>Event cameras detect pixel-level intensity changes asynchronously, enabling high-speed motion capture. Advantages include low power consumption and motion blur immunity, but they are less effective for static scenes and lack fine texture details. Hybrid systems that combine RGB and event data are promising but underexplored in terms of representation analysis.</p>
+  <img src="background_section_image.jpg" alt="Background Image" class="centered-img">
+</section>
+
+<section>
+  <h2>Problem Statement</h2>
+  <ul>
+    <li>Many prior hybrid trackers use arbitrary event representations without rigorous comparison.</li>
+    <li>The study identifies the need for systematic evaluation of event-based representations specifically for tracking tasks.</li>
+    <li>It emphasizes the importance of choosing the right event encoding format.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Objectives</h2>
+  <p>1. Evaluate four event representations: Event Frame (EF), Voxel Grid (VG), Pseudo-Frames (PS), and Event Spike Tensor (EST).</p>
+  <img src="objectives1.jpg" alt="Event Representations" class="objectives-img">
+  
+  <p>2. Deploy them across several datasets and tracking models.</p>
+  <img src="objectives2.jpg" alt="Datasets & Models" class="objectives-img">
+
+  <p>3. Propose a unified framework for fusing RGB and event data effectively.<br>Propose a Visible-Event Tracker that:</p>
+  <ul>
+    <li>Effectively leverages the strengths of both RGB and event modalities</li>
+    <li>Maintains generalization across a wide range of event data representations</li>
+    <li>Supports flexible integration of different event representation methods (e.g., VG, EF)</li>
+  </ul>
+  <p>4. Benchmarks</p>
+  <ul>
+    <li>Conduct a comprehensive evaluation of 3 selected trackers using 4 distinct event representations</li>
+    <li>Evaluation Metrics: Success (S), Normalized Precision (NP), and Precision (P)</li>
+    <li>Provide practical recommendations for selecting event representations based on use case</li>
+    <li>Provide Future Work</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Input Representation</h2>
+  <ul>
+    <li>Describes the mathematical model behind event generation</li>
+    <li>Events are triggered based on a threshold change in log-intensity</li>
+    <li>Each event is represented as a tuple: (x, y, timestamp, polarity)</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Event Representations</h2>
+  <ul>
+    <li>EF: Accumulates events into 2D image-like frames (fast, simple, but no time order)</li>
+    <li>VG: Uses a 3D voxel grid to store events (preserves temporal data, but memory-heavy)</li>
+    <li>PS: Binary frames filtered for noise (fast, efficient, but loses detail)</li>
+    <li>EST: Differentiable tensor with time bins and polarity channels (most expressive, but complex and costly)</li>
+  </ul>
+  <img src="event_representations.jpg" alt="Event Representations Diagram" class="centered-img">
+</section>
+
+<section>
+  <h2>Tested Models</h2>
+  <ul>
+    <li>Three trackers were evaluated: MambaEVT, HDETrack, and CEUTrack</li>
+    <li>Each was tested with all four event representations</li>
+    <li>Benchmarks were performed on VisEvent and LaSOT datasets</li>
+  </ul>
+  <div class="image-row">
+    <img src="model1.jpg" alt="Model Diagram 1">
+    <img src="model2.jpg" alt="Model Diagram 2">
+  </div>
+</section>
+
+<section>
+  <h2>Proposed Unified RGB-Events Tracking Framework</h2>
+  <ul>
+    <li>Early fusion: Cross-attention between RGB and event features before feeding to a transformer</li>
+    <li>Aligns motion (events) and texture (RGB) cues early</li>
+    <li>Enhances modality-aware feature selection</li>
+    <li>Improves robustness in fast or blurry scenarios</li>
+  </ul>
+  <img src="framework.jpg" alt="Fusion Framework Diagram" class="centered-img">
+</section>
+
+<section>
+  <h2>Evaluation Metrics</h2>
+  <ul>
+    <li>Success (S): Based on intersection over union (IoU) of predicted vs. ground truth boxes</li>
+    <li>Precision (P): Distance between predicted and actual center points</li>
+    <li>Normalized Precision (NP): Precision adjusted for object size</li>
+  </ul>
+  <div class="image-row">
+    <img src="metric1.jpg" alt="Metric Image 1">
+    <img src="metric2.jpg" alt="Metric Image 2">
+    <img src="metric3.jpg" alt="Metric Image 3">
+  </div>
+</section>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('section').forEach(section => {
+    observer.observe(section);
+  });
+</script>
+
+</body>
+</html>
